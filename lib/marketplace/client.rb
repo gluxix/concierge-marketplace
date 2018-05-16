@@ -11,9 +11,5 @@ module Marketplace
         "Authorization" => "Basic #{Base64.encode64(cred)}"
       }
     end
-
-    def hi
-      'HI'
-    end
   end
 end
