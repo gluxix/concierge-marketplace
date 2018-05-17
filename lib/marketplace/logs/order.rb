@@ -1,13 +1,17 @@
 require "rest-client"
 require "marketplace/constants"
 require "marketplace/exceptions"
+require "marketplace/logs/models/order_log"
 require "json"
 
 module Marketplace
   module Logs
     module Order
       def log_order(payload)
-        payload = { order: payload }
+        unless payload.is_a? Models::OrderLog
+          raise ArgumentError, 'payload must be a Marketplace::Logs::Models::OrderLog'
+        end
+        payload = { order: payload.to_hash }
         res = RestClient.post("#{HOST}/order_log", payload, @headers)
         body = JSON.parse(res)
         body["id"]
